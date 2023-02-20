@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { DxTextBoxComponent } from 'devextreme-angular';
 
 @Component({
@@ -7,13 +7,20 @@ import { DxTextBoxComponent } from 'devextreme-angular';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  public show: boolean = false;
-  public content: string;
+  isPopupVisible: boolean;
+  value: string;
+
+  @ViewChild('textBoxValue') textBoxValue!: ElementRef;
+  constructor() {
+    this.isPopupVisible = false;
+    this.value = '';
+  }
+
   @ViewChild(DxTextBoxComponent, { static: false }) textBox: DxTextBoxComponent;
 
-  toggle() {
-    let value = this.textBox.value;
-    this.show = true;
-    this.content = value;
+  toggle(): void {
+    this.isPopupVisible = !this.isPopupVisible;
+    this.value = this.textBox.value;
+    this.textBox.value = '';
   }
 }
